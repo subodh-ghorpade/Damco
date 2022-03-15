@@ -8,19 +8,25 @@ namespace MyClasses;
 class ProgramClass
 {
 	
-	public function countLanternFish(array $data, int $days){
+	public function countLanternFish(array $input, int $days){
+		$data = array_count_values($input);
 
-		while ($days--) {
+		while ($days) {
+			$newData = array_fill(0, 9, 0);
 			foreach($data as $key => $value){
-				if($data[$key] == 0){
-					$data[$key] = 6;
-					array_push($data, 8);
+				if($key - 1 < 0){
+					$newData[6] += $value;
+					$newData[8] += $value;
 				} else {
-					$data[$key] = $value - 1;
+					$newData[$key - 1] += $value;
 				}
 			}
+
+			$data = $newData;
+
+			$days--;
 		}
 
-		return count($data);
+		return array_sum($newData);
 	}
 }
